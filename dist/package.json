@@ -1,0 +1,17 @@
+{
+  "name": "garastor",
+  "version": "2.0.0",
+  "description": "GARASTOR European Hardwood Flooring — Static site with Decap CMS",
+  "scripts": {
+    "build:content": "node build-content.js",
+    "build": "node build-content.js",
+    "dev": "npx serve . -p 3000"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "glob": "^11.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
