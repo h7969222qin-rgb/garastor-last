@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Budelli 布德利 — Strip Plank — GARASTOR</title>
+    <meta name="description" content="Budelli 布德利 - The quiet luxury of restraint. Long lines, expanded space. Less, perfected.">
+    <style>
+        .product-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        @media (min-width: 768px) {
+            .product-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+        }
+        .gallery-img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        .gallery-img:hover {
+            transform: scale(1.01);
+        }
+        .product-specs {
+            background: #f8f8f8;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 3rem;
+        }
+        .product-detail-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .breadcrumb a {
+            color: #666;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header dark">
+        <a href="index.html" class="header-logo">GARASTOR</a>
+        <nav class="main-nav">
+            <a href="products.html">Products</a>
+            <a href="collections.html">Collections</a>
+            <a href="brand-story.html">Our Story</a>
+            <a href="lookbook.html">Gallery</a>
+            <a href="boutiques.html">Factory</a>
+            <a href="journal.html">Journal</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="header-actions">
+            <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <a href="products.html">Products</a>
+        <a href="collections.html">Collections</a>
+        <a href="brand-story.html">Our Story</a>
+        <a href="lookbook.html">Gallery</a>
+        <a href="boutiques.html">Factory</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <section class="page-header-products">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="products.html">All Products</a> &gt;
+                <a href="products.html#strip-plank">Strip Plank</a> &gt;
+                <span>Budelli 布德利</span>
+            </nav>
+            <div class="product-detail-header">
+                <p class="section-eyebrow">Strip Plank</p>
+                <h1 class="page-title">Budelli 布德利</h1>
+                <p class="page-desc">Subtle earthy tones that ground a room without overwhelming it. The essence of quiet luxury.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-gallery">
+                <img src="images/products/strip-plank/Budelli布德利/大地-1.jpg" alt="Budelli 大地-1" class="gallery-img">
+                <img src="images/products/strip-plank/Budelli布德利/大地-2.jpg" alt="Budelli 大地-2" class="gallery-img">
+                <img src="images/products/strip-plank/Budelli布德利/大地-3.jpg" alt="Budelli 大地-3" class="gallery-img">
+                <img src="images/products/strip-plank/Budelli布德利/大地-4.jpg" alt="Budelli 大地-4" class="gallery-img">
+                <img src="images/products/strip-plank/Budelli布德利/大地-5.jpg" alt="Budelli 大地-5" class="gallery-img">
+            </div>
+
+            <div class="product-specs">
+                <h3>Product Specifications</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                    <div>
+                        <p><strong>Material:</strong> Solid European Oak</p>
+                        <p><strong>Finish:</strong> Oil-based, low-VOC</p>
+                        <p><strong>Color Family:</strong> Earth Tones</p>
+                        <p><strong>Plank Width:</strong> 180mm</p>
+                    </div>
+                    <div>
+                        <p><strong>Plank Length:</strong> Up to 2.4m</p>
+                        <p><strong>Thickness:</strong> 18mm</p>
+                        <p><strong>Installation:</strong> Floating, glue-down</p>
+                        <p><strong>Warranty:</strong> 25 years residential</p>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem;">
+                    <a href="contact.html" class="btn" style="margin-right: 1rem;">Request Sample</a>
+                    <a href="contact.html" class="btn secondary">Book Consultation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><h3 class="footer-logo">GARASTOR</h3><p><br>Since 1996<br></p></div>
+                <div class="footer-nav"><h4>Explore</h4><a href="products.html">All Products</a><a href="collections.html">Collections</a><a href="lookbook.html">Gallery</a><a href="journal.html">Journal</a></div>
+                <div class="footer-nav"><h4>Services</h4><a href="contact.html">Free Consultation</a><a href="contact.html">Sample Request</a><a href="boutiques.html">Showroom Booking</a><a href="contact.html">After-Sales</a></div>
+                <div class="footer-nav"><h4>Brand</h4><a href="brand-story.html">Our Story</a><a href="boutiques.html">Factory</a><a href="contact.html">Contact Us</a></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 GARASTOR. All rights reserved. | A House of JONHOS · Factory: Serbia · European Design</p></div>
+        </div>
+    </footer>
+    <script src="/js/main.js"></script>
+</body>
+</html>

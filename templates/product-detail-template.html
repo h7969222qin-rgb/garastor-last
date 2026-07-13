@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <title>[产品名称] — [产品系列] — GARASTOR</title>
+    <meta name="description" content="[产品描述]">
+    <style>
+        /* Product Detail Page Styles */
+        .product-detail-header {
+            padding: 3rem 0 2rem;
+            background: linear-gradient(135deg, rgba(250, 247, 242, 0.8), rgba(239, 232, 220, 0.6));
+            border-bottom: 1px solid rgba(234, 229, 219, 0.5);
+        }
+
+        .breadcrumb {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.875rem;
+            color: #6e665a;
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: #6e665a;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #1a1814;
+        }
+
+        .breadcrumb span {
+            color: #1a1814;
+            font-weight: 500;
+        }
+
+        .product-header-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .product-header-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .product-info {
+            padding-right: 2rem;
+        }
+
+        .product-family {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.875rem;
+            color: #a0896e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .product-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            color: #1a1814;
+            margin: 0 0 1.5rem 0;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .product-description {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: #4e4840;
+            margin-bottom: 2rem;
+        }
+
+        .product-features {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .product-features li {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #4e4840;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(234, 229, 219, 0.5);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .product-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #a0896e;
+            font-weight: bold;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #1a1814;
+            color: #faf7f2;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #a0896e;
+            color: #1a1814;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1a1814;
+            padding: 1rem 2rem;
+            border: 2px solid #1a1814;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: #1a1814;
+            color: #faf7f2;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .main-image:hover img {
+            transform: scale(1.02);
+        }
+
+        /* Product Gallery Section */
+        .product-gallery-section {
+            padding: 4rem 0;
+            background: #faf7f2;
+        }
+
+        .gallery-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: #1a1814;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 300px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Specifications Section */
+        .specifications-section {
+            padding: 4rem 0;
+            background: #f5f0e9;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .spec-item {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .spec-item h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #a0896e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-item p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.125rem;
+            color: #1a1814;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Related Products */
+        .related-products {
+            padding: 4rem 0;
+            background: #faf7f2;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: #1a1814;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        /* Lightbox Styles */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .lightbox-overlay.active {
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .lightbox-overlay button {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .lightbox-overlay button:hover {
+            background: rgba(160, 137, 110, 0.9);
+            transform: scale(1.1);
+        }
+
+        .close-lightbox {
+            top: 30px;
+            right: 30px;
+            font-size: 30px;
+        }
+
+        .prev-image {
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .next-image {
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .product-title {
+                font-size: 2.5rem;
+            }
+
+            .product-description {
+                font-size: 1rem;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .product-actions .btn-primary,
+            .product-actions .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+
+            .main-image {
+                height: 350px;
+            }
+
+            .gallery-item {
+                height: 250px;
+            }
+
+            .lightbox-overlay button {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .close-lightbox {
+                top: 20px;
+                right: 20px;
+            }
+
+            .prev-image,
+            .next-image {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-title {
+                font-size: 2rem;
+            }
+
+            .product-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .main-image {
+                height: 300px;
+            }
+
+            .gallery-item {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header dark">
+        <a href="index.html" class="header-logo">GARASTOR</a>
+        <nav class="main-nav">
+            <a href="products.html">Products</a>
+            <a href="collections.html">Collections</a>
+            <a href="brand-story.html">Our Story</a>
+            <a href="lookbook.html">Gallery</a>
+            <a href="boutiques.html">Factory</a>
+            <a href="journal.html">Journal</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="header-actions">
+            <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <a href="products.html">Products</a>
+        <a href="collections.html">Collections</a>
+        <a href="brand-story.html">Our Story</a>
+        <a href="lookbook.html">Gallery</a>
+        <a href="boutiques.html">Factory</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <section class="product-detail-header">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a> &gt;
+                <a href="products.html">Products</a> &gt;
+                <a href="products.html" class="product-family-link" data-family="strip-plank">Strip Plank</a> &gt;
+                <span class="product-current">Budelli 布德利</span>
+            </nav>
+
+            <div class="product-header-content">
+                <div class="product-info">
+                    <p class="product-family">Strip Plank</p>
+                    <h1 class="product-title">Budelli 布德利</h1>
+                    <p class="product-description">
+                        Subtle earthy tones that ground a room without overwhelming it. The essence of quiet luxury.
+                        Each plank is crafted from solid European oak, finished with a low-VOC oil-based treatment
+                        that enhances the natural grain while providing lasting protection.
+                    </p>
+
+                    <ul class="product-features">
+                        <li>Solid European Oak</li>
+                        <li>Oil-based, low-VOC finish</li>
+                        <li>180mm plank width</li>
+                        <li>Up to 2.4m plank length</li>
+                        <li>18mm thickness</li>
+                        <li>25-year residential warranty</li>
+                    </ul>
+
+                    <div class="product-actions">
+                        <a href="contact.html" class="btn-primary">Request Sample</a>
+                        <a href="contact.html" class="btn-secondary">Book Consultation</a>
+                    </div>
+                </div>
+
+                <div class="main-image">
+                    <img src="images/products/strip-plank/Budelli布德利/大地-1.jpg" alt="Budelli 布德利" loading="eager">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-gallery-section">
+        <div class="container">
+            <h2 class="gallery-title">Product Gallery</h2>
+            <div class="product-gallery">
+                <!-- Gallery images will be dynamically inserted -->
+                <div class="gallery-item">
+                    <img src="images/products/strip-plank/Budelli布德利/大地-1.jpg" alt="Budelli 布德利 - Image 1" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/products/strip-plank/Budelli布德利/大地-2.jpg" alt="Budelli 布德利 - Image 2" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/products/strip-plank/Budelli布德利/大地-3.jpg" alt="Budelli 布德利 - Image 3" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/products/strip-plank/Budelli布德利/大地-4.jpg" alt="Budelli 布德利 - Image 4" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/products/strip-plank/Budelli布德利/大地-5.jpg" alt="Budelli 布德利 - Image 5" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="specifications-section">
+        <div class="container">
+            <h2 class="section-title">Technical Specifications</h2>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <h4>Material</h4>
+                    <p>Solid European Oak</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Finish</h4>
+                    <p>Oil-based, Low-VOC</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Plank Width</h4>
+                    <p>180mm</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Plank Length</h4>
+                    <p>Up to 2.4m</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Thickness</h4>
+                    <p>18mm</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Installation</h4>
+                    <p>Floating, Glue-down</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Warranty</h4>
+                    <p>25 Years Residential</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Origin</h4>
+                    <p>Serbia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">More from Strip Plank Collection</h2>
+            <div class="prod-thumb-grid">
+                <div class="prod-thumb">
+                    <a href="product-stripplank-budelli.html" class="product-image-link">
+                        <div class="prod-thumb-img">
+                            <img src="images/products/strip-plank/Burano布拉诺/焦糖-1.jpg" alt="Burano布拉诺" loading="lazy">
+                        </div>
+                    </a>
+                    <span class="prod-thumb-code">Burano 布拉诺</span>
+                </div>
+                <div class="prod-thumb">
+                    <a href="product-stripplank-capri.html" class="product-image-link">
+                        <div class="prod-thumb-img">
+                            <img src="images/products/strip-plank/Capri卡普里/岁月-1.jpg" alt="Capri卡普里" loading="lazy">
+                        </div>
+                    </a>
+                    <span class="prod-thumb-code">Capri 卡普里</span>
+                </div>
+                <div class="prod-thumb">
+                    <a href="product-stripplank-elba.html" class="product-image-link">
+                        <div class="prod-thumb-img">
+                            <img src="images/products/strip-plank/Elba厄尔巴/青苔-1.jpg" alt="Elba厄尔巴" loading="lazy">
+                        </div>
+                    </a>
+                    <span class="prod-thumb-code">Elba 厄尔巴</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><h3 class="footer-logo">GARASTOR</h3><p><br>Since 1996<br></p></div>
+                <div class="footer-nav"><h4>Explore</h4><a href="products.html">All Products</a><a href="collections.html">Collections</a><a href="lookbook.html">Gallery</a><a href="journal.html">Journal</a></div>
+                <div class="footer-nav"><h4>Services</h4><a href="contact.html">Free Consultation</a><a href="contact.html">Sample Request</a><a href="boutiques.html">Showroom Booking</a><a href="contact.html">After-Sales</a></div>
+                <div class="footer-nav"><h4>Brand</h4><a href="brand-story.html">Our Story</a><a href="boutiques.html">Factory</a><a href="contact.html">Contact Us</a></div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GARASTOR. All rights reserved. | A House of JONHOS · Factory: Serbia · European Design</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/product-pages.js"></script>
+    <script>
+    // Lightbox functionality for product detail page
+    document.addEventListener('DOMContentLoaded', function() {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const images = [
+            'images/products/strip-plank/Budelli布德利/大地-1.jpg',
+            'images/products/strip-plank/Budelli布德利/大地-2.jpg',
+            'images/products/strip-plank/Budelli布德利/大地-3.jpg',
+            'images/products/strip-plank/Budelli布德利/大地-4.jpg',
+            'images/products/strip-plank/Budelli布德利/大地-5.jpg'
+        ];
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                openLightbox(images[index], images, index);
+            });
+        });
+
+        function openLightbox(imageSrc, imageArray, currentIndex) {
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox-overlay active';
+            lightbox.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.95);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(4px);
+            `;
+
+            const lightboxContent = document.createElement('div');
+            lightboxContent.className = 'lightbox-content';
+
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.style.cssText = `
+                max-width: 100%;
+                max-height: 80vh;
+                object-fit: contain;
+                border-radius: 8px;
+            `;
+
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.className = 'close-lightbox';
+            closeBtn.style.cssText = `
+                position: absolute;
+                top: 30px;
+                right: 30px;
+                background: rgba(0,0,0,0.7);
+                color: white;
+                border: none;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                font-size: 30px;
+                cursor: pointer;
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            const prevBtn = document.createElement('button');
+            prevBtn.innerHTML = '‹';
+            prevBtn.className = 'prev-image';
+            prevBtn.style.cssText = `
+                position: absolute;
+                left: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0,0,0,0.7);
+                color: white;
+                border: none;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                font-size: 30px;
+                cursor: pointer;
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            const nextBtn = document.createElement('button');
+            nextBtn.innerHTML = '›';
+            nextBtn.className = 'next-image';
+            nextBtn.style.cssText = `
+                position: absolute;
+                right: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0,0,0,0.7);
+                color: white;
+                border: none;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                font-size: 30px;
+                cursor: pointer;
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            lightboxContent.appendChild(img);
+            lightbox.appendChild(lightboxContent);
+            lightbox.appendChild(closeBtn);
+            lightbox.appendChild(prevBtn);
+            lightbox.appendChild(nextBtn);
+            document.body.appendChild(lightbox);
+
+            document.body.style.overflow = 'hidden';
+
+            let currentImgIndex = currentIndex;
+
+            function updateImage(index) {
+                if (index >= 0 && index < imageArray.length) {
+                    currentImgIndex = index;
+                    img.src = imageArray[index];
+                }
+            }
+
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(lightbox);
+                document.body.style.overflow = '';
+            });
+
+            prevBtn.addEventListener('click', () => {
+                updateImage((currentImgIndex - 1 + imageArray.length) % imageArray.length);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                updateImage((currentImgIndex + 1) % imageArray.length);
+            });
+
+            const handleKeyPress = (e) => {
+                if (e.key === 'Escape') {
+                    closeBtn.click();
+                } else if (e.key === 'ArrowLeft') {
+                    prevBtn.click();
+                } else if (e.key === 'ArrowRight') {
+                    nextBtn.click();
+                }
+            };
+
+            document.addEventListener('keydown', handleKeyPress);
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeBtn.click();
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>
