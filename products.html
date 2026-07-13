@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <title>All Products | Garastro European Hardwood Flooring &amp; Construction Building Materials Manufacturer Serbia</title>
+    <meta name="description" content="Garastro is a professional manufacturer of European oak hardwood flooring, high-quality architectural building materials &amp; interior construction supplies for global wholesale distributors, civil engineering and interior design projects, original factory supply from Serbia. Browse our complete engineered wood flooring product catalog.">
+    <meta name="keywords" content="engineered oak flooring, hardwood flooring, solid wood floor, building materials, construction material, architectural timber, civil engineering, home interior material, wholesale European flooring, Serbia wood flooring manufacturer">
+    <meta property="og:title" content="All Products | Garastro European Hardwood Flooring &amp; Construction Building Materials Manufacturer Serbia">
+    <meta property="og:description" content="Garastro is a professional manufacturer of European oak hardwood flooring, high-quality architectural building materials &amp; interior construction supplies for global wholesale distributors, civil engineering and interior design projects, original factory supply from Serbia.">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://garastro.com/products/">
+    <style>
+        /* ═══ INLINE OVERRIDES — guaranteed to load ═══ */
+        img { display: inline-block !important; visibility: visible !important; opacity: 1 !important; }
+        .family-index-card img, .fic-img-wrap img, .psh-cover img, .prod-thumb-img img { display: inline-block !important; visibility: visible !important; opacity: 1 !important; }
+
+        /* Enhanced product thumb styles */
+        .prod-thumb {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .prod-thumb:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Make product images clickable */
+        .prod-thumb-img {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+        }
+        .prod-thumb-img::after {
+            content: "Click to view gallery";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            text-align: center;
+            padding: 6px;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .prod-thumb:hover .prod-thumb-img::after {
+            opacity: 1;
+        }
+        .prod-thumb-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            cursor: pointer;
+        }
+        .prod-thumb-img:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Gallery Overlay */
+        .gallery-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+        }
+        .gallery-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #1a1814;
+        }
+        .gallery-header {
+            padding: 0.5rem 1.5rem;
+            background: #1a1814;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .gallery-header h3 {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+            font-size: 1.1rem;
+            color: #C8A96E;
+            margin: 0;
+        }
+        .close-gallery {
+            background: transparent;
+            border: none;
+            color: #8c8c8c;
+            font-family: 'Montserrat', 'Noto Sans SC', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .close-gallery:hover {
+            background: rgba(255,255,255,0.05);
+            color: white;
+        }
+        .gallery-main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+        .gallery-main-image {
+            max-width: 1000px;
+            max-height: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+        }
+        .gallery-main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .gallery-thumbnails {
+            display: flex;
+            gap: 8px;
+            padding: 0.75rem;
+            background: rgba(0,0,0,0.5);
+            border-radius: 8px;
+            margin: 0 auto;
+            width: calc(5 * 60px + 4 * 8px);
+            overflow-x: auto;
+            justify-content: center;
+        }
+        .gallery-thumbnail {
+            width: 56px;
+            height: 56px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            flex-shrink: 0;
+            border: 2px solid transparent;
+        }
+        .gallery-thumbnail:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        .gallery-thumbnail.active {
+            opacity: 1;
+            border-color: #C8A96E;
+        }
+        .gallery-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quick navigation hint */
+        .gallery-hint {
+            font-size: 0.9rem;
+            color: #6e665a;
+            margin-top: 1rem;
+        }
+
+        /* Section navigation guide */
+        .section-nav-guide {
+            background: white;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #8c8c8c;
+            font-family: 'Montserrat', sans-serif;
+            border-top: 1px solid #e8e6e1;
+            border-bottom: 1px solid #e8e6e1;
+            margin-bottom: 2rem;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .prod-thumb-img::after {
+                font-size: 0.7rem;
+                padding: 4px;
+            }
+            .gallery-header {
+                padding: 0.75rem 1rem;
+            }
+            .gallery-header h3 {
+                font-size: 1.2rem;
+            }
+            .gallery-thumbnails {
+                width: 60px;
+            }
+            .gallery-thumbnail {
+                width: 44px;
+                height: 44px;
+            }
+        }
+        @media (max-width: 480px) {
+            .prod-thumb-img::after {
+                content: "Gallery";
+                font-size: 0.65rem;
+            }
+            .gallery-thumbnails {
+                width: 50px;
+                padding: 0.5rem;
+            }
+            .gallery-thumbnail {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+            </style>
+</head>
+<body>
+    <header class="site-header dark">
+        <a href="index.html" class="header-logo">GARASTOR</a>
+        <nav class="main-nav">
+            <a href="products.html">Products</a>
+            <a href="collections.html">Collections</a>
+            <a href="brand-story.html">Our Story</a>
+            <a href="lookbook.html">Gallery</a>
+            <a href="boutiques.html">Factory</a>
+            <a href="journal.html">Journal</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="header-actions">
+            <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <a href="products.html">Products</a>
+        <a href="collections.html">Collections</a>
+        <a href="brand-story.html">Our Story</a>
+        <a href="lookbook.html">Gallery</a>
+        <a href="boutiques.html">Factory</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    
+    <section class="page-header-products">
+        <div class="container">
+            <p class="section-eyebrow">All Products</p>
+            <h1 class="page-title">Three Families of Flooring</h1>
+            <p class="page-desc">Like the great design houses, we organize our floors in families. Each with its own feel, its own feel, its own feel.</p>
+            <div class="gallery-hint"><strong>Click any product image to view complete gallery</strong></div>
+        </div>
+    </section>
+
+    <!-- STRIP PLANK -->
+    <section class="prod-section" id="strip-plank">
+        <div class="container">
+            <div class="prod-section-header">
+                <div class="psh-text">
+                    <p class="section-eyebrow">The Purist</p>
+                    <h2>Strip Plank <span class="psh-en">条板</span></h2>
+                    <p class="psh-desc">The quiet luxury of restraint. Long lines, expanded space. Less, perfected.</p>
+                    <div class="psh-stats"><span>9 styles</span></div>
+                </div>
+                <div class="psh-cover"><img loading="eager" src="images/products/strip-plank/Budelli/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro"></div>
+            </div>
+            <div class="prod-thumb-grid">
+                <!-- Products here are exactly the same as original -->
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Budelli" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Budelli/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Budelli 布德利</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Burano" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Burano/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Burano 布拉诺</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Capri" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Capri/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Capri 卡普里</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Elba" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Elba/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Elba 厄尔巴</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Levanzo" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Levanzo/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Levanzo 莱万佐</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Lschia" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Lschia/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Lschia 伊斯基亚</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Murano" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Murano/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Murano 穆拉诺</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Palmarola" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Palmarola/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Palmarola 帕尔马罗拉</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="strip-plank" data-product="Sicily" data-count="5">
+                        <img loading="lazy" src="images/products/strip-plank/Sicily/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Sicily 西西里</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHEVRON -->
+    <section class="prod-section" id="chevron">
+        <div class="container">
+            <div class="prod-section-header">
+                <div class="psh-text">
+                    <p class="section-eyebrow">The Statement</p>
+                    <h2>Chevron <span class="psh-en">鱼骨拼</span></h2>
+                    <p class="psh-desc">Bold angles that command the room. For spaces that deserve to be unforgettable.</p>
+                    <div class="psh-stats"><span>6 styles</span></div>
+                </div>
+                <div class="psh-cover"><img loading="eager" src="images/products/chevron/Capraia/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro"></div>
+            </div>
+            <div class="prod-thumb-grid">
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="chevron" data-product="Capraia" data-count="5">
+                        <img loading="lazy" src="images/products/chevron/Capraia/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Capraia 卡普拉亚</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="chevron" data-product="Giannutri" data-count="5">
+                        <img loading="lazy" src="images/products/chevron/Giannutri/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Giannutri 詹努特里</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="chevron" data-product="Lipari" data-count="5">
+                        <img loading="lazy" src="images/products/chevron/Lipari/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Lipari 利帕里</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="chevron" data-product="Nisida" data-count="5">
+                        <img loading="lazy" src="images/products/chevron/Nisida/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Nisida 尼西达</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="chevron" data-product="Pianosa" data-count="5">
+                        <img loading="lazy" src="images/products/chevron/Pianosa/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Pianosa 皮亚诺萨</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="chevron" data-product="Salina" data-count="5">
+                        <img loading="lazy" src="images/products/chevron/Salina/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Salina Salina</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HERRINGBONE -->
+    <section class="prod-section" id="herringbone">
+        <div class="container">
+            <div class="prod-section-header">
+                <div class="psh-text">
+                    <p class="section-eyebrow">The classic</p>
+                    <h2>Herringbone <span class="psh-en">人字拼</span></h2>
+                    <p class="psh-desc">Parquetry reimagined as olfactory art. A silent symphony of wood and light.</p>
+                    <div class="psh-stats"><span>6 styles</span></div>
+                </div>
+                <div class="psh-cover"><img loading="eager" src="images/products/herringbone/Comacina/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro"></div>
+            </div>
+            <div class="prod-thumb-grid">
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="herringbone" data-product="Comacina" data-count="5">
+                        <img loading="lazy" src="images/products/herringbone/Comacina/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Comacina 科马奇纳</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="herringbone" data-product="Elba" data-count="5">
+                        <img loading="lazy" src="images/products/herringbone/Elba/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Elba 埃尔巴</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="herringbone" data-product="Gorgona" data-count="5">
+                        <img loading="lazy" src="images/products/herringbone/Gorgona/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Gorgona 戈尔戈纳</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="herringbone" data-product="Lsola-Madre" data-count="5">
+                        <img loading="lazy" src="images/products/herringbone/Lsola-Madre/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Lsola-Madre</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="herringbone" data-product="Zannone" data-count="5">
+                        <img loading="lazy" src="images/products/herringbone/Zannone/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Zannone 赞诺内</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+                <div class="prod-thumb">
+                    <div class="prod-thumb-img" data-family="herringbone" data-product="Salina" data-count="5">
+                        <img loading="lazy" src="images/products/herringbone/Salina/1.jpg" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                    </div>
+                    <span class="prod-thumb-code">Salina</span>
+                    <div class="product-counter">5 pictures</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Overlay -->
+    <div id="galleryOverlay" class="gallery-overlay">
+        <div class="gallery-container">
+            <div class="gallery-header">
+                <h3 id="galleryTitle">Product Gallery</h3>
+                <button id="closeGallery" class="close-gallery">✕ Close</button>
+            </div>
+            <div class="gallery-main-container">
+                <div class="gallery-main-image">
+                    <img id="mainGalleryImage" src="" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">
+                </div>
+                <div class="gallery-thumbnails" id="galleryThumbnails">
+                    <!-- Thumbnails will be inserted by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><div class="footer-logo">GARASTOR</div><p><br>Since 1996<br></p></div>
+                <div class="footer-nav"><h4>Explore</h4><a href="products.html">All Products</a><a href="collections.html">Collections</a><a href="lookbook.html">Gallery</a><a href="journal.html">Journal</a></div>
+                <div class="footer-nav"><h4>Services</h4><a href="contact.html">Free Consultation</a><a href="contact.html">Sample Request</a><a href="boutiques.html">Showroom Booking</a><a href="contact.html">After-Sales</a></div>
+                <div class="footer-nav"><h4>Brand</h4><a href="brand-story.html">Our Story</a><a href="boutiques.html">Factory</a><a href="contact.html">Contact Us</a></div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GARASTOR. All rights reserved. | Factory: Serbia · European Design</p>
+                <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #6e665a;">
+                    Enhanced product gallery - Click any product image to view complete picture gallery
+                </p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+</body>
+</html>
