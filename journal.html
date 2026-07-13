@@ -70,32 +70,66 @@ body { background: #fff !important; }
 <div class="footer-nav"><h4>Services</h4><a href="contact.html">Free Consultation</a><a href="contact.html">Sample Request</a><a href="boutiques.html">Factory Tour</a><a href="contact.html">After-Sales</a></div>
 <div class="footer-nav"><h4>Brand</h4><a href="brand-story.html">Our Story</a><a href="boutiques.html">Factory</a><a href="contact.html">Contact Us</a></div>
 </div>
-<div class="footer-bottom"><p>&copy; 2026 GARASTOR. All rights reserved. | Factory: Serbia · European Design</p></div>
+<div class="footer-bottom"><p>&copy; 2026 GARASTOR. All rights reserved. | A House of JONHOS · Factory: Serbia · European Design</p></div>
 </div></footer>
 <script>
-var allArticles = [
-  { slug: 'vattimo-weak-thought-floor',   img: 'images/products/strip-plank/Murano/1.jpg',   tag: 'philosophy', title: 'Weak Thought and the Floor: What Vattimo Teaches Us About the Ground Beneath Our Feet',   date: '22 June 2026' },
-  { slug: 'agamben-bare-life-form',        img: 'images/products/strip-plank/Sicily/1.jpg',tag: 'Philosophy of Form',   title: 'La Forma-di-Vita: Agamben, the Floor, and the Indivisibility of Living',                  date: '18 June 2026' },
-  { slug: 'eco-open-work-floor',           img: 'images/products/chevron/Lipari/1.jpg',        tag: 'Semiotics of Space',  title: 'Opera Aperta: Umberto Eco and the Floor That Reads Its Walker',                         date: '12 June 2026' },
-  { slug: 'negri-multitude-common-surface',img: 'images/products/herringbone/Elba/1.jpg',     tag: 'Political Ontology',  title: 'The Floor as Common: Negri, the Multitude, and the Assemblages Beneath Our Feet',       date: '5 June 2026' },
-  { slug: 'deleuze-fold-floor-leibniz',     img: 'images/products/chevron/Giannutri/1.jpg',  tag: 'Baroque Ontology',    title: 'The Fold: Deleuze, Leibniz, and the Chevron as Baroque Surface',                        date: '29 May 2026' },
-  { slug: 'schelling-nature-floor-reverence',img: 'images/products/strip-plank/Budelli/1.jpg',tag: 'Naturphilosophie', title: 'Visible Spirit: Schelling, Nature, and the Floor That Remembers the Forest',             date: '20 May 2026' },
-];
+/*
+ * GARASTOR Journal Renderer v2.0
+ * Loads articles dynamically from /data/journal.json (CMS-generated)
+ * Only displays articles with status:"published" AND published:true
+ * Falls back gracefully if JSON cannot be loaded.
+ */
+var allArticles = [];
 var PER_PAGE = 6;
 var currentPage = 1;
 
+// Load from CMS-generated JSON
+fetch('/data/journal.json')
+  .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(function(data) {
+    var articles = data.articles || [];
+    // Filter: only published articles with the toggle ON
+    var published = articles.filter(function(a) {
+      return a.status === 'published' && a.published !== false;
+    });
+    // Map to format expected by renderPage
+    allArticles = published.map(function(a) {
+      return {
+        slug: a.slug || '',
+        img: a.image || '',
+        tag: a.tag || '',
+        title: a.title || '',
+        date: a.displayDate || a.date || ''
+      };
+    });
+    console.log('GARASTOR Journal: ' + allArticles.length + ' articles loaded from CMS (' + data.metadata.totalArticles + ' total, ' + (data.metadata.totalArticles - allArticles.length) + ' hidden)');
+    renderPage(1);
+  })
+  .catch(function(err) {
+    console.warn('GARASTOR Journal: Cannot load articles from JSON (' + err.message + ') — using fallback');
+    // Fallback: hardcoded articles if JSON fails (keeps page working offline)
+    allArticles = [
+      { slug: 'vattimo-weak-thought-floor',   img: '/images/products/strip-plank/Murano/1.jpg',   tag: 'philosophy', title: 'Weak Thought and the Floor: What Vattimo Teaches Us About the Ground Beneath Our Feet',   date: '22 June 2026' },
+      { slug: 'agamben-bare-life-form',        img: '/images/products/strip-plank/Sicily/1.jpg',tag: 'Philosophy of Form',   title: 'La Forma-di-Vita: Agamben, the Floor, and the Indivisibility of Living',                  date: '18 June 2026' },
+      { slug: 'eco-open-work-floor',           img: '/images/products/chevron/Lipari/1.jpg',        tag: 'Semiotics of Space',  title: 'Opera Aperta: Umberto Eco and the Floor That Reads Its Walker',                         date: '12 June 2026' },
+      { slug: 'negri-multitude-common-surface',img: '/images/products/herringbone/Elba/1.jpg',     tag: 'Political Ontology',  title: 'The Floor as Common: Negri, the Multitude, and the Assemblages Beneath Our Feet',       date: '5 June 2026' },
+      { slug: 'deleuze-fold-floor-leibniz',     img: '/images/products/chevron/Giannutri/1.jpg',  tag: 'Baroque Ontology',    title: 'The Fold: Deleuze, Leibniz, and the Chevron as Baroque Surface',                        date: '29 May 2026' },
+      { slug: 'schelling-nature-floor-reverence',img: '/images/products/strip-plank/Budelli/1.jpg',tag: 'Naturphilosophie', title: 'Visible Spirit: Schelling, Nature, and the Floor That Remembers the Forest',             date: '20 May 2026' },
+    ];
+    renderPage(1);
+  });
+
 function renderPage(page) {
   currentPage = page;
-  var filtered = allArticles;
   var start = (page - 1) * PER_PAGE;
-  var pageArticles = filtered.slice(start, start + PER_PAGE);
-  var totalPages = Math.ceil(filtered.length / PER_PAGE);
+  var pageArticles = allArticles.slice(start, start + PER_PAGE);
+  var totalPages = Math.ceil(allArticles.length / PER_PAGE);
 
   var grid = document.getElementById('journalGrid');
   grid.innerHTML = pageArticles.map(function(a) {
-    return '<a href="' + (a.slug ? 'journal/' + a.slug + '.html' : '#') + '" class="journal-card-link">' +
+    return '<a href="' + (a.slug ? '/journal/' + a.slug + '.html' : '#') + '" class="journal-card-link">' +
       '<article class="journal-card">' +
-        '<img loading="eager" src="' + a.img + '" alt="European oak hardwood flooring for interior construction &amp; civil engineering project - Garastro">' +
+        '<img loading="eager" src="' + a.img + '" alt="GARASTOR Journal — European oak hardwood flooring, architecture, philosophy and design">' +
         '<div class="journal-card-body">' +
           '<span class="journal-tag">' + a.tag + '</span>' +
           '<h3>' + a.title + '</h3>' +
@@ -115,8 +149,6 @@ function renderPage(page) {
   pag.innerHTML = html;
   window.scrollTo({ top: 350, behavior: 'smooth' });
 }
-
-renderPage(1);
 </script>
 <script src="js/main.js"></script>
 <!-- 技术诚信声明 / Technische Transparenzerklärung:

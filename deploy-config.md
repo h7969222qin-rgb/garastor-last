@@ -31,27 +31,55 @@ This document outlines the complete deployment setup for the GARASTOR website us
    git push origin main
    ```
 
-### Repository Structure
+### Repository Structure (v2.0 — CMS-enabled)
 ```
 garastor/
-├── index.html                 # Homepage
-├── products.html              # Products page (dynamically loads from /data/products.json)
-├── journal.html              # Journal page (dynamically loads from /data/journal.json)
-├── admin/                    # Decap CMS admin interface
-│   ├── index.html           # Admin dashboard
-│   ├── config.yml           # CMS configuration
-│   └── decap-setup.html     # CMS setup page
-├── data/                     # Content repository (JSON files)
-│   ├── products.json        # All product data
-│   ├── journal.json         # All journal articles
-│   └── collections.json     # Product collections metadata
-├── assets/                   # JS/CSS assets
-│   ├── data-loader.js       # Dynamic data loading script
-│   └── admin-styles.css     # Admin-specific styles
-├── css/                      # Main website styles
-├── js/                       # Main website scripts
-├── images/                   # All images
-└── journal/                  # Journal article pages
+├── index.html                  # Homepage
+├── products.html               # Products — thumbs rendered by js/products-renderer.js
+├── journal.html                # Journal — loads from /data/journal.json at runtime
+├── collections.html / brand-story.html / lookbook.html / boutiques.html / contact.html
+│
+├── content/                    # ★ CMS-managed markdown (Decap CMS writes here)
+│   ├── products/               #   21 individual .md files (one per product)
+│   │   ├── budelli.md
+│   │   ├── burano.md
+│   │   └── ...
+│   └── journal/                #   6 individual .md files (one per article)
+│       ├── vattimo-weak-thought-floor.md
+│       └── ...
+│
+├── admin/                      # ★ Decap CMS admin interface
+│   ├── index.html              #   Analytics dashboard (original, unchanged)
+│   ├── cms.html                #   Content manager — loads Decap CMS → /admin/cms.html
+│   └── config.yml              #   CMS configuration (collections, fields, backend)
+│
+├── functions/                  # ★ Cloudflare Pages Functions (OAuth proxy)
+│   └── api/
+│       ├── auth.js             #   POST /api/auth — GitHub OAuth token exchange
+│       └── callback.js         #   GET /api/callback — OAuth callback endpoint
+│
+├── data/                       # ★ Generated JSON (build-content.js produces these)
+│   ├── products.json           #   Compiled from content/products/*.md at build time
+│   └── journal.json            #   Compiled from content/journal/*.md at build time
+│
+├── build-content.js            # ★ MD → JSON compiler (runs on Cloudflare Pages)
+├── package.json                # ★ Node dependencies (gray-matter)
+│
+├── js/
+│   ├── main.js                 #   Hamburger menu, scroll effects, form validation
+│   ├── products-renderer.js    # ★ Dynamic product grid + gallery from JSON
+│   ├── product-gallery.js      #   Gallery overlay (legacy)
+│   ├── product-pages.js        #   Product detail pages (legacy)
+│   └── tracking.js             #   Analytics tracking
+│
+├── css/                        #   Main website styles (style.css)
+├── images/                     #   All product + site images
+│   ├── products/               #   Product galleries (strip-plank/chevron/herringbone)
+│   └── uploads/                #   CMS image upload target (Decap CMS media_folder)
+│
+├── journal/                    #   Static journal article HTML pages
+├── dist/                       #   Deployment mirror (synced copy)
+└── .gitignore                  #   Updated for CMS pipeline
 ```
 
 ## Phase 2: Cloudflare Pages Setup
@@ -64,10 +92,13 @@ garastor/
 
 ### 2. Build Settings
 - **Framework preset:** None (Static Site)
-- **Build command:** (Leave empty - static site)
+- **Build command:** `npm ci && node build-content.js`
 - **Build output directory:** `/` (root)
 - **Root directory:** `/`
-- **Environment variables:** (None required for static site)
+- **Environment variables:**
+  - `OAUTH_CLIENT_ID` — GitHub OAuth App Client ID (for Decap CMS login)
+  - `OAUTH_CLIENT_SECRET` — GitHub OAuth App Client Secret (for Decap CMS login)
+- **Node.js version:** 18.x or later
 
 ### 3. Custom Domain (Optional)
 1. Add your domain: `garastor.com` (or subdomain)
