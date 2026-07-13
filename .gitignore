@@ -1,0 +1,25 @@
+# Python
+generate-images.py
+quick-test.py
+remove-johnhouse.py
+fix-journal-paths.sh
+*.pyc
+__pycache__/
+
+# Node
+node_modules/
+package-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# Generated images script (keep images, ignore script)
+generate-all-content.py
