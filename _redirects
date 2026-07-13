@@ -1,0 +1,4 @@
+# GARASTOR — non-SPA static site
+# This file overrides Cloudflare's auto-SPA redirect.
+# All routes map directly to files on disk.
+# No catch-all → missing files return 404.

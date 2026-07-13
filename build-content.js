@@ -275,6 +275,64 @@ function buildJournal() {
   };
 }
 
+// ─── Recursive directory copy (pure Node.js, no shell dependency) ───
+function copyDir(src, dst) {
+  if (!fs.existsSync(src)) return;
+  const stat = fs.statSync(src);
+  if (stat.isDirectory()) {
+    fs.mkdirSync(dst, { recursive: true });
+    for (const entry of fs.readdirSync(src)) {
+      copyDir(path.join(src, entry), path.join(dst, entry));
+    }
+  } else {
+    fs.copyFileSync(src, dst);
+  }
+}
+
+// ─── Create dist/ output directory for Cloudflare Pages ───
+function createDist() {
+  const DIST_DIR = path.join(ROOT, 'dist');
+
+  // Clean/create dist
+  if (fs.existsSync(DIST_DIR)) {
+    fs.rmSync(DIST_DIR, { recursive: true, force: true });
+  }
+  fs.mkdirSync(DIST_DIR, { recursive: true });
+
+  // Directories to copy into dist/
+  const dirsToCopy = [
+    'admin', 'assets', 'css', 'data', 'images', 'js', 'journal',
+  ];
+
+  for (const dir of dirsToCopy) {
+    const src = path.join(ROOT, dir);
+    const dst = path.join(DIST_DIR, dir);
+    if (fs.existsSync(src)) {
+      copyDir(src, dst);
+    }
+  }
+
+  // Copy root-level files: HTML, XML, TXT, and special files
+  const rootFiles = fs.readdirSync(ROOT).filter(f => {
+    const full = path.join(ROOT, f);
+    if (fs.statSync(full).isDirectory()) return false;
+    const ext = path.extname(f).toLowerCase();
+    return ['.html', '.xml', '.txt', ''].includes(ext) || f === '_redirects' || f === '_headers';
+  });
+
+  for (const file of rootFiles) {
+    fs.copyFileSync(path.join(ROOT, file), path.join(DIST_DIR, file));
+  }
+
+  // Copy products-data.json into dist/ root
+  const pdPath = path.join(ROOT, 'products-data.json');
+  if (fs.existsSync(pdPath)) {
+    fs.copyFileSync(pdPath, path.join(DIST_DIR, 'products-data.json'));
+  }
+
+  console.log(`  Created dist/ with all site files + data`);
+}
+
 // ─── MAIN ───
 function main() {
   console.log('═'.repeat(50));
@@ -302,9 +360,43 @@ function main() {
   fs.writeFileSync(journalPath, JSON.stringify(journal, null, 2), 'utf8');
   console.log(`  Written: ${journalPath} (${journal.metadata.totalArticles} articles)`);
 
-  console.log(`\n{'═'.repeat(50)}`);
+  // Build products-data.json (for product-detail.html compatibility)
+  console.log('\n[Building products-data.json]');
+  try {
+    // Inline the products-data.json generation to avoid require() side-effects
+    const CATEGORIES = [
+      { slug:'strip-plank', kilianFamily:'The Purist', nameZh:'条板', nameEn:'Strip Plank', description:'The quiet luxury of restraint.', products:[{code:'Budelli',name:'Budelli 布德利',firstImg:1,images:5},{code:'Burano',name:'Burano 布拉诺',firstImg:1,images:5},{code:'Capri',name:'Capri 卡普里',firstImg:1,images:5},{code:'Elba',name:'Elba 厄尔巴',firstImg:1,images:5},{code:'Levanzo',name:'Levanzo 莱万佐',firstImg:1,images:5},{code:'Lschia',name:'Lschia 伊斯基亚',firstImg:1,images:5},{code:'Murano',name:'Murano 穆拉诺',firstImg:1,images:5},{code:'Palmarola',name:'Palmarola 帕尔马罗拉',firstImg:1,images:5},{code:'Sicily',name:'Sicily 西西里',firstImg:1,images:5}] },
+      { slug:'chevron', kilianFamily:'The Statement', nameZh:'鱼骨拼', nameEn:'Chevron', description:'Bold angles that command the room.', products:[{code:'Capraia',name:'Capraia 卡普拉亚',firstImg:1,images:5},{code:'Giannutri',name:'Giannutri 詹努特里',firstImg:1,images:5},{code:'Lipari',name:'Lipari 利帕里',firstImg:1,images:5},{code:'Nisida',name:'Nisida 尼西达',firstImg:1,images:5},{code:'Pianosa',name:'Pianosa 皮亚诺萨',firstImg:1,images:5},{code:'Salina',name:'Salina Salina',firstImg:1,images:5}] },
+      { slug:'herringbone', kilianFamily:'The Classic', nameZh:'人字拼', nameEn:'Herringbone', description:'A silent symphony of wood and light.', products:[{code:'Comacina',name:'Comacina 科马奇纳',firstImg:1,images:5},{code:'Elba',name:'Elba 埃尔巴',firstImg:1,images:5},{code:'Gorgona',name:'Gorgona 戈尔戈纳',firstImg:1,images:5},{code:'Lsola-Madre',name:'Lsola-Madre',firstImg:1,images:5},{code:'Zannone',name:'Zannone 赞诺内',firstImg:1,images:5},{code:'Salina',name:'Salina',firstImg:1,images:5}] },
+    ];
+    // Scan actual images to correct counts
+    for (const cat of CATEGORIES) {
+      const catDir = path.join(ROOT, 'images', 'products', cat.slug);
+      if (fs.existsSync(catDir)) {
+        for (const prodDir of fs.readdirSync(catDir)) {
+          const full = path.join(catDir, prodDir);
+          if (fs.statSync(full).isDirectory()) {
+            const count = fs.readdirSync(full).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f)).length;
+            const match = cat.products.find(p => p.code === prodDir);
+            if (match && count > 0) match.images = count;
+          }
+        }
+      }
+    }
+    fs.writeFileSync(path.join(ROOT, 'products-data.json'), JSON.stringify({categories:CATEGORIES}, null, 2), 'utf8');
+    console.log(`  Written: products-data.json (${CATEGORIES.length} categories)`);
+  } catch (e) {
+    console.warn(`  WARN: products-data.json generation failed: ${e.message}`);
+  }
+
+  // Create dist/ output for Cloudflare Pages
+  console.log('\n[Creating dist/ output for Cloudflare Pages]');
+  createDist();
+
+  console.log(`\n${'═'.repeat(50)}`);
   console.log('  BUILD COMPLETE');
   console.log(`  ${products.metadata.totalProducts} products + ${journal.metadata.totalArticles} articles ready`);
+  console.log('  Output: dist/');
   console.log('═'.repeat(50));
 }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>ProductsDetails — GARASTOR</title>
-<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
 <!-- Google Fonts removed for local rendering -->
 <style>
 :root{--bg:#080808;--surface:#111;--border:#222;--gold:#c8a45c;--text:#e8e4df;--dim:#6b6762;--font-display:Georgia,'Times New Roman','Noto Serif SC',serif;--font-body:'Segoe UI','Helvetica Neue',Arial,sans-serif}
@@ -45,7 +45,7 @@ a{color:var(--gold);text-decoration:none}
 <body>
 <header class="hdr"><a href="products.html" class="hdr-back">&larr; Collection</a><a href="index.html" class="hdr-logo">GARASTOR</a><div></div></header>
 <div id="app"><div class="loading">Loading&hellip;</div></div>
-<script src="js/tracking.js"></script>
+<script src="/js/tracking.js"></script>
 <script>
 (function(){
 var code=new URLSearchParams(location.search).get('id');
@@ -59,16 +59,16 @@ if(!found){document.getElementById('app').innerHTML='<div class="loading">Produc
 if(window.GarastorTrack)GarastorTrack.pageView('product-detail',cat.slug,code);
 
 var subPath=found.subcategory?found.subcategory+'/':'';
-var imgBase='/images/products/'+cat.slug+'/'+found.code+'/'+found.code;
+var imgBase='/images/products/'+cat.slug+'/'+found.code+'/';
 var startIdx=found.firstImg||1;
 var imgs=[];
-for(var k=0;k<found.images;k++){var n=(startIdx+k)<10?'0'+(startIdx+k):''+(startIdx+k);imgs.push(imgBase+'_'+n+'.jpg')}
+for(var k=0;k<found.images;k++){var n=startIdx+k;imgs.push(imgBase+n+'.jpg')}
 
 var related=cat.products.filter(function(p){return p.code!==code});
 for(var ri=related.length-1;ri>0;ri--){var rj=Math.floor(Math.random()*(ri+1));var t=related[ri];related[ri]=related[rj];related[rj]=t}
 related=related.slice(0,6);
 
-var relHTML='';related.forEach(function(r){var rs=r.subcategory?r.subcategory+'/':'';var rf=r.firstImg||1;var rn=rf<10?'0'+rf:''+rf;relHTML+='<a href="product-detail.html?id='+encodeURIComponent(r.code)+'" class="rel-card"><img src="./images/products/'+cat.slug+'/'+r.code+'/'+r.code+'_'+rn+'.jpg" alt="'+r.code+'" loading="lazy" onerror="this.style.border=\'2px solid red\'"><span>'+r.code+'</span></a>'});
+var relHTML='';related.forEach(function(r){var rs=r.subcategory?r.subcategory+'/':'';var rf=r.firstImg||1;var rn=rf<10?'0'+rf:''+rf;relHTML+='<a href="product-detail.html?id='+encodeURIComponent(r.code)+'" class="rel-card"><img src="/images/products/'+cat.slug+'/'+r.code+'/'+rf+'.jpg" alt="'+r.code+'" loading="lazy" onerror="this.style.border=\'2px solid red\'"><span>'+r.code+'</span></a>'});
 
 var stripHTML=imgs.map(function(src,i){return '<img src="'+src+'" class="'+(i===0?'active':'')+'" data-idx="'+i+'" onerror="this.style.border=\'2px solid red\'" onclick="switchImg('+i+')">'}).join('');
 
